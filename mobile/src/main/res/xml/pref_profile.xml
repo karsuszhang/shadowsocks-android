@@ -1,76 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-                  xmlns:app="http://schemas.android.com/apk/res-auto">
+                  xmlns:app="http://schemas.android.com/apk/res/com.github.shadowsocks">
 
-    <AutoSummaryEditTextPreference
+    <be.mygod.preference.EditTextPreference
             android:key="profileName"
-            app:pref_summaryHasText="%s"
+            android:summary="%s"
             android:title="@string/profile_name"/>
 
-    <PreferenceCategory
+    <be.mygod.preference.PreferenceCategory
             android:title="@string/proxy_cat">
 
-        <AutoSummaryEditTextPreference
+        <be.mygod.preference.EditTextPreference
                 android:key="proxy"
-                app:pref_summaryHasText="%s"
-                android:singleLine="true"
+                android:summary="%s"
                 android:title="@string/proxy"/>
-        <AutoSummaryEditTextPreference
+        <be.mygod.preference.NumberPickerPreference
+                app:min="1"
+                app:max="65535"
                 android:key="remotePortNum"
-                android:inputType="number"
-                android:maxLength="5"
-                app:pref_summaryHasText="%s"
+                android:summary="%d"
                 android:title="@string/remote_port"/>
-        <AutoSummaryEditTextPreference
+        <be.mygod.preference.NumberPickerPreference
+                app:min="1025"
+                app:max="65535"
+                android:key="localPortNum"
+                android:summary="%d"
+                android:title="@string/port"/>
+        <be.mygod.preference.EditTextPreference
                 android:inputType="textPassword"
-                app:pref_summaryPasswordSubstituteLength="0"
                 android:key="sitekey"
-                app:pref_summaryHasText="%s"
-                android:singleLine="true"
+                android:summary="%s"
                 android:title="@string/sitekey"/>
-        <SimpleMenuPreference
+        <DropDownPreference
                 android:key="encMethod"
-                android:icon="@drawable/ic_notification_enhanced_encryption"
                 android:entries="@array/enc_method_entry"
                 android:entryValues="@array/enc_method_value"
                 android:summary="%s"
                 android:title="@string/enc_method"/>
 
-    </PreferenceCategory>
+    </be.mygod.preference.PreferenceCategory>
 
-    <PreferenceCategory
+    <be.mygod.preference.PreferenceCategory
             android:title="@string/feature_cat">
 
-        <SimpleMenuPreference
+        <DropDownPreference
                 android:key="route"
                 android:entries="@array/route_entry"
                 android:entryValues="@array/route_value"
                 android:summary="%s"
                 android:title="@string/route_list"/>
-        <AutoSummaryEditTextPreference
+        <be.mygod.preference.EditTextPreference
                 android:key="remoteDns"
-                android:icon="@drawable/ic_action_dns"
                 android:title="@string/remote_dns"
-                app:pref_summaryHasText="%s"/>
+                android:summary="%s"/>
         <SwitchPreference
                 android:key="isIpv6"
-                android:icon="@drawable/ic_image_looks_6"
                 android:summary="@string/ipv6_summary"
                 android:title="@string/ipv6"/>
         <SwitchPreference
                 android:key="isProxyApps"
-                android:icon="@drawable/ic_navigation_apps"
                 android:summary="@string/proxied_apps_summary"
                 android:title="@string/proxied_apps"/>
         <SwitchPreference
                 android:key="isUdpDns"
-                android:icon="@drawable/ic_action_dns"
                 android:summary="@string/udp_dns_summary"
                 android:title="@string/udp_dns"/>
 
-    </PreferenceCategory>
+    </be.mygod.preference.PreferenceCategory>
 
-    <PreferenceCategory
+    <be.mygod.preference.PreferenceCategory
             android:title="@string/plugin">
 
         <com.github.shadowsocks.preference.IconListPreference
@@ -78,13 +76,12 @@
                 android:persistent="false"
                 android:summary="%s"
                 android:title="@string/plugin"/>
-        <AutoSummaryEditTextPreference
+        <be.mygod.preference.EditTextPreference
                 android:key="plugin.configure"
-                android:icon="@drawable/ic_action_settings"
                 android:persistent="false"
-                app:pref_summaryHasText="%s"
+                android:summary="%s"
                 android:title="@string/plugin_configure"/>
 
-    </PreferenceCategory>
+    </be.mygod.preference.PreferenceCategory>
 
 </PreferenceScreen>
