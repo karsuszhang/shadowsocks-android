@@ -22,6 +22,12 @@
                 app:pref_summaryHasText="%s"
                 android:title="@string/remote_port"/>
         <AutoSummaryEditTextPreference
+            android:key="garbage_len"
+            android:inputType="number"
+            android:maxLength="3"
+            app:pref_summaryHasText="%s"
+            android:title="@string/garbage_len"/>
+        <AutoSummaryEditTextPreference
                 android:inputType="textPassword"
                 app:pref_summaryPasswordSubstituteLength="0"
                 android:key="sitekey"

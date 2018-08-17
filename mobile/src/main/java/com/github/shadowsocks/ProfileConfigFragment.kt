@@ -72,6 +72,7 @@ class ProfileConfigFragment : PreferenceFragmentCompat(), Toolbar.OnMenuItemClic
         if (Build.VERSION.SDK_INT >= 25 && activity.getSystemService<UserManager>()?.isDemoUser == true) {
             findPreference(Key.host).summary = "shadowsocks.example.org"
             findPreference(Key.remotePort).summary = "1337"
+            findPreference(Key.garbage_length).summary = "0";
             findPreference(Key.password).summary = "\u2022".repeat(32)
         }
         val serviceMode = DataStore.serviceMode

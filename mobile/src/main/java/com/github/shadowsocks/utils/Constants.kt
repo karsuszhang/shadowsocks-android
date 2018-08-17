@@ -61,6 +61,7 @@ object Key {
     const val method = "encMethod"
     const val remotePort = "remotePortNum"
     const val remoteDns = "remoteDns"
+    const val garbage_length = "garbage_len"
 
     const val plugin = "plugin"
     const val pluginConfigure = "plugin.configure"

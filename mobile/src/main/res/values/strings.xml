@@ -31,6 +31,7 @@
   <string name="remote_port">Remote Port</string>
   <string name="sitekey">Password</string>
   <string name="enc_method">Encrypt Method</string>
+  <string name="garbage_len">Garbage Header Length</string>
 
   <!-- feature category -->
   <string name="ipv6">IPv6 Route</string>

@@ -60,6 +60,11 @@ class Profile : Serializable {
                         profile.password = match.groupValues[2]
                         profile.host = match.groupValues[3]
                         profile.remotePort = match.groupValues[4].toInt()
+                        if(match.groupValues.count() >= 5)
+                            profile.garbageLen = match.groupValues[5].toInt()
+                        else
+                            profile.garbageLen = 0
+
                         profile.plugin = uri.getQueryParameter(Key.plugin)
                         profile.name = uri.fragment
                         profile
@@ -84,6 +89,7 @@ class Profile : Serializable {
                             profile.remotePort = javaURI.port
                             profile.plugin = uri.getQueryParameter(Key.plugin)
                             profile.name = uri.fragment ?: ""
+                            profile.garbageLen = 0
                             profile
                         } catch (e: URISyntaxException) {
                             Log.e(TAG, "Invalid URI: ${it.value}")
@@ -110,11 +116,13 @@ class Profile : Serializable {
                 if (password.isNullOrEmpty()) return
                 val method = json.optString("method")
                 if (method.isNullOrEmpty()) return
+                val garbageLen = json.optString("garbageLen")?.toIntOrNull() ?: 0
                 add(Profile().also {
                     it.host = host
                     it.remotePort = remotePort
                     it.password = password
                     it.method = method
+                    it.garbageLen = garbageLen
                 }.apply {
                     feature?.copyFeatureSettingsTo(this)
                     val id = json.optString("plugin")
@@ -178,6 +186,7 @@ class Profile : Serializable {
     var name: String? = ""
     var host: String = "198.199.101.152"
     var remotePort: Int = 8388
+    var garbageLen: Int = 0
     var password: String = "u1rRWTssNv0p"
     var method: String = "aes-256-cfb"
     var route: String = "all"
@@ -210,10 +219,10 @@ class Profile : Serializable {
     fun toUri(): Uri {
         val builder = Uri.Builder()
                 .scheme("ss")
-                .encodedAuthority("%s@%s:%d".format(Locale.ENGLISH,
+                .encodedAuthority("%s@%s:%d:%d".format(Locale.ENGLISH,
                         Base64.encodeToString("%s:%s".format(Locale.ENGLISH, method, password).toByteArray(),
                                 Base64.NO_PADDING or Base64.NO_WRAP or Base64.URL_SAFE),
-                        if (host.contains(':')) "[$host]" else host, remotePort))
+                        if (host.contains(':')) "[$host]" else host, remotePort, garbageLen))
         val configuration = PluginConfiguration(plugin ?: "")
         if (configuration.selected.isNotEmpty())
             builder.appendQueryParameter(Key.plugin, configuration.selectedOptions.toString(false))
@@ -227,6 +236,7 @@ class Profile : Serializable {
         put("server_port", remotePort)
         put("password", password)
         put("method", method)
+        put("garbageLen", garbageLen)
         if (compat) return@apply
         PluginConfiguration(plugin ?: "").selectedOptions.apply {
             if (id.isNotEmpty()) {
@@ -253,6 +263,7 @@ class Profile : Serializable {
         DataStore.privateStore.putString(Key.name, name)
         DataStore.privateStore.putString(Key.host, host)
         DataStore.privateStore.putString(Key.remotePort, remotePort.toString())
+        DataStore.privateStore.putString(Key.garbage_length, garbageLen.toString())
         DataStore.privateStore.putString(Key.password, password)
         DataStore.privateStore.putString(Key.route, route)
         DataStore.privateStore.putString(Key.remoteDns, remoteDns)
@@ -270,6 +281,7 @@ class Profile : Serializable {
         name = DataStore.privateStore.getString(Key.name) ?: ""
         host = DataStore.privateStore.getString(Key.host) ?: ""
         remotePort = parsePort(DataStore.privateStore.getString(Key.remotePort), 8388, 1)
+        garbageLen = DataStore.privateStore.getString(Key.garbage_length)?.toIntOrNull() ?: 0
         password = DataStore.privateStore.getString(Key.password) ?: ""
         method = DataStore.privateStore.getString(Key.method) ?: ""
         route = DataStore.privateStore.getString(Key.route) ?: ""

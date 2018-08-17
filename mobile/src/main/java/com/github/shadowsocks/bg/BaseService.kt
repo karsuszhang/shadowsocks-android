@@ -383,6 +383,7 @@ object BaseService {
                         profile.remotePort = proxy[1].trim().toInt()
                         profile.password = proxy[2].trim()
                         profile.method = proxy[3].trim()
+                        profile.garbageLen = 0
                     }
 
                     if (profile.route == Acl.CUSTOM_RULES)
