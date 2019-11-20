@@ -69,7 +69,7 @@ data class Profile(
         var userOrder: Long = 0,
         var plugin: String? = null,
         var udpFallback: Long? = null,
-
+        var garbageLen: Int = 0,
         @Ignore // not persisted in db, only used by direct boot
         var dirty: Boolean = false
 ) : Parcelable, Serializable {
@@ -161,7 +161,7 @@ data class Profile(
                 if (password.isNullOrEmpty()) return null
                 val method = json["method"].optString
                 if (method.isNullOrEmpty()) return null
-                val garbageLen = json.optString("garbageLen")?.toIntOrNull() ?: 0
+                val garbageLen = json["garbageLen"]?.optInt ?: 0
                 return Profile().also {
                     it.host = host
                     it.remotePort = remotePort
